@@ -1,3 +1,7 @@
+//NAME:- ERMIAS DEREJE
+//ID:- ATE/4952/15
+
+
 void main() {
   List<int> numbers = [-19, 12, 5, 6, 2, 10, 7, -54, 39, 42, 49];
 
@@ -93,3 +97,4 @@ int countNegative(List<int> list) {
   }
   return count;
 }
+
