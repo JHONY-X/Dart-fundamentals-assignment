@@ -1,0 +1,38 @@
+Q1. What is the difference between a List<int> and a List<dynamic> in Dart? Why is it usually better to use a typed list like List<int>?
+Answer: A `List<int>` can only store integer values, whereas a `List<dynamic>` can store any type of data (integers, strings, booleans, etc.) at the same time. It is usually better to use a typed list like `List<int>` because it provides type safety. This means the Dart compiler will catch errors if you accidentally try to add the wrong data type (like a string) to the list. It also allows the IDE to provide better autocompletion and prevents runtime crashes related to unexpected data types.
+
+Q2. In your findMax() function, why is it important to initialize your 'running maximum' variable to the first element of the list rather than to 0 or to a very small number? What could go wrong with the other approaches?
+Answer: Initializing the 'running maximum' to the first element guarantees that the starting point is an actual value from the dataset. If we initialized it to `0`, and the list contained only negative numbers (e.g., `[-5, -10, -20]`), the function would return `0` as the maximum, which is completely incorrect since `0` isn't even in the list. Setting it to a "very small number" might work in some cases, but it's flawed if the list contains valid numbers that are even smaller than that arbitrary initialization.
+
+Q3. Your calculateAverage() function calls calculateSum() internally. What software design principle does this demonstrate, and why is reusing existing functions preferable to duplicating code?
+Answer: This demonstrates the DRY (Don't Repeat Yourself) principle. Reusing `calculateSum()` is preferable to writing out the sum loop again because it reduces the length of the code and makes it easier to maintain. If we ever found a bug in how the sum is calculated, or wanted to optimize the sum logic, we would only have to fix it in one place (`calculateSum()`), rather than tracking down duplicate code everywhere we calculated an average.
+
+Q4. Describe in plain English what the for-in loop syntax does in Dart. How is it different from a traditional for loop with an index? When would you prefer one over the other?
+Answer: A `for-in` loop syntax (`for (int item in list)`) goes through a collection one item at a time, giving you direct access to the item itself without needing to know its position (index). A traditional `for` loop (`for (int i = 0; i < list.length; i++)`) tracks a numerical index and uses that index to look up values (`list[i]`). 
+I prefer the `for-in` loop when I just need to read or process every value in a list (like finding a sum). I prefer a traditional loop if I need to modify elements at specific positions, or if the logic specifically relies on the index number (like skipping every other element or comparing adjacent items).
+
+Q5. If someone calls your findMax() function with an empty list, what happens? How could you modify the function to handle that case safely?
+Answer: If called with an empty list, `findMax()` will throw a `RangeError` (Index out of range) when it tries to access `list[0]` to initialize the maximum variable. 
+To handle this safely, we add an early return or exception. As already implemented in the code: `if (list.isEmpty) throw Exception('List is empty');`. Alternatively, we could change the return type to nullable (`int?`) and return `null` if the list is empty.
+
+Q6. What is the difference between a synchronous function and an asynchronous function in Dart? In your Calculator class, why is divide() synchronous while computeAsync() is asynchronous?
+Answer: A synchronous function executes line by line and blocks the rest of the application until it finishes executing. An asynchronous function (marked with `async`) allows the program to pause and wait for a long-running operation (like network requests or file reading) without freezing the entire application, returning a `Future`.
+*(Note: Based on the provided code in Task 2, `divide()` and the other operations are actually implemented as asynchronous functions returning a `Future<double>`. If there was a separate version where `divide()` was synchronous and another `computeAsync()` was asynchronous, the synchronous one would calculate immediately in memory, while the asynchronous one would be used to offload the wait time of an external delay, preventing UI "jank".)*
+
+Q7. Explain the purpose of the await keyword in Dart. What happens if you forget to use await when calling an async function that returns a Future? What does your program print instead of the result?
+Answer: The `await` keyword pauses the execution of an `async` function until a `Future` completes, allowing you to get the actual value the Future contains instead of having to use `.then()` callbacks. 
+If you forget to use `await`, the program does not wait for the operation to finish and immediately returns the `Future` object itself, not the resolved value. If you tried to print a variable initialized without `await`, the program would print something like `Instance of 'Future<double>'` instead of the actual number result.
+
+Q8. What is the purpose of the try-catch block in your displayResult() method? What would happen if you removed it and then called displayResult(10, 0, 'divide')?
+Answer: The `try-catch` block is gracefully handling errors that might occur during execution so that the program doesn't crash entirely. 
+If you removed the `try-catch` and attempted to divide by zero, the program would encounter an *Unhandled Exception* and crash, abruptly stopping any code scheduled to run after that point.
+
+Q9. Why is it good design to have divide() throw an ArgumentError rather than simply returning 0 or printing an error inside the divide() method itself? What principle of function design does this reflect?
+Answer: This reflects the principle of "Separation of Concerns". The `divide()` function should only be responsible for the mathematical logic, not for deciding how errors are presented to the user. 
+Throwing an exception (like the `DivisionByZeroException` in the code) alerts the calling function that an impossible operation was requested. The calling function (like `main()`) can then decide the appropriate way to handle it—whether that's showing a red error popup to the user, logging it to a server, or assigning a fallback value. Returning `0` is mathematically incorrect and quietly hides the bug, which is dangerous.
+
+Q10. What does the async keyword on main() allow you to do? Could this assignment have been written without making main() async? Explain your answer.
+Answer: Adding `async` to `main()` allows you to use the `await` keyword directly inside the `main` function block, letting you wait sequentially for operations like `await calc.add(...)`.
+Yes, it could have been written without an `async` main. We would have had to use the `.then()` syntax chain to handle the Futures instead of using `await`. For example:
+`calc.add(25.5, 14.5).then((value) => print(value));` 
+However, this makes the code much harder to read (known as "callback hell") when chaining multiple operations back to back, which is why `async/await` is generally preferred.
