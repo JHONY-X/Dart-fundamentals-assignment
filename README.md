@@ -1,3 +1,8 @@
+NAME:- ERMIAS DEREJE 
+
+ID:- ATE/4952/15
+
+
 # Dart Fundamentals Assignment
 
 ## Overview
@@ -34,15 +39,9 @@ dart-fundamentals-assignment/
   - Even/Odd count
   - Positive/Negative count
 
-
 ## Task 2: Async Calculator App
 
 - OOP-based calculator class
 - Uses async/await
 - Implements exception handling
 - Prevents division by zero
-
-
-ERMIAS DEREJE
-ATE/4952/15
-
