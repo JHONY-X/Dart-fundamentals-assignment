@@ -1,8 +1,7 @@
 //NAME:- ERMIAS DEREJE
 //ID:- ATE/4952/15
 
-//NAME:- ERMIAS DEREJE
-//ID:- ATE/4952/15
+
 
 void main() {
   // create a list of numbers
@@ -159,6 +158,7 @@ List<int> selectionSort(List<int> numbers) {
 
 
  
+
 
 
 
